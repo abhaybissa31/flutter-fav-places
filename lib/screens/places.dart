@@ -43,7 +43,6 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen>{
 
   @override
   void initState() {
-    // TODO: implement initState
     _placesFuture = ref.read(userPlacesProvider.notifier).loadData();
     super.initState();
   }
