@@ -44,10 +44,25 @@ class PlaceDetailsScreen extends StatelessWidget {
                       Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>MapScreen(location: place.location,isSelecting: false,),),);
                       print('-----------------------------------selection api caleeed ------------------------');
                     },
-                      child: CircleAvatar(
-                    radius: 70,
-                    backgroundImage: NetworkImage(locationImage),
-                  )),
+                  //     child: CircleAvatar(
+
+                  //   radius: 70,
+                    
+                  //   backgroundImage: NetworkImage(locationImage),
+                  // )
+                  child: Container(
+  width: 260, // You can adjust the width and height as needed
+  height: 110,
+  decoration: BoxDecoration(
+    image: DecorationImage(
+      image: NetworkImage(locationImage),
+      fit: BoxFit.cover,
+    ),
+    borderRadius: BorderRadius.circular(50), // Adjust the corner radius to mimic Pixel phone's rounded corners
+  ),
+)
+,
+                  ),
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 24, vertical: 16),
