@@ -67,8 +67,6 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen>{
             _addNewPlace(context);
           },),
           const SizedBox(width: 12),
-          IconButton(icon:const Icon(CupertinoIcons.suit_heart), color: const Color.fromARGB(255,  214, 41, 118),iconSize: 25,onPressed: () {
-          },),
         ],
       ),
       body: FutureBuilder(future: _placesFuture, builder: (context,snapshot)=> snapshot.connectionState == ConnectionState.waiting?const Center(child: CircularProgressIndicator.adaptive(),):  PlacesList(places: userPlaces,),)
