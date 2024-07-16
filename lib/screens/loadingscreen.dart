@@ -17,7 +17,7 @@ class Splash extends State<Loadingscreen> {
   @override
   Widget build(BuildContext context) {
     Timer(
-     const Duration(seconds: 3),
+     const Duration(seconds: 2),
       () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (BuildContext context) => HomeScreen(),
