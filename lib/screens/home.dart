@@ -54,6 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
           },),
         ],
       ),
+      body: Card(
+        child: [],
+      ),
     );
   }
 }
