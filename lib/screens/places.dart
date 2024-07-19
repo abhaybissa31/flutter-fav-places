@@ -1,14 +1,14 @@
-import 'package:favorite_places/screens/add_places.dart';
+import 'package:favorite_places/screens/add_place.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomeScreen extends StatefulWidget{
+class PlacesScreen extends StatefulWidget{
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<PlacesScreen> createState() => _PlacesListScreen();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _PlacesListScreen extends State<PlacesScreen> {
    void _addNewPlace(BuildContext context) async {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -35,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title:  Row(
           children: [
             const Icon(Icons.location_on_outlined,color: Color.fromARGB(255, 214, 41, 118),),
@@ -50,12 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
           },),
           const SizedBox(width: 12),
           IconButton(icon:Icon(CupertinoIcons.suit_heart), color: Color.fromARGB(255,  214, 41, 118),iconSize: 25,onPressed: () {
-            
           },),
         ],
-      ),
-      body: Card(
-        child: [],
       ),
     );
   }

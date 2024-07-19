@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:favorite_places/screens/home.dart';
+import 'package:favorite_places/screens/places.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 class Loadingscreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class Splash extends State<Loadingscreen> {
      const Duration(seconds: 2),
       () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (BuildContext context) => HomeScreen(),
+          builder: (BuildContext context) => PlacesScreen(),
         ),
       ),
     );
