@@ -1,4 +1,5 @@
 import 'package:favorite_places/screens/add_place.dart';
+import 'package:favorite_places/widgets/places_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +14,7 @@ class _PlacesListScreen extends State<PlacesScreen> {
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
-            AddNewPlaces(),
+            const AddNewPlaces(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = 0.0;
           const end = 1.0;
@@ -44,14 +45,15 @@ class _PlacesListScreen extends State<PlacesScreen> {
         centerTitle: true,
         // elevation: 5,
         actions:  [
-          IconButton(icon: Icon(CupertinoIcons.add), color: Color.fromARGB(255, 214, 41, 118),iconSize: 25,onPressed: (){
+          IconButton(icon: const Icon(CupertinoIcons.add), color:const Color.fromARGB(255, 214, 41, 118),iconSize: 25,onPressed: (){
             _addNewPlace(context);
           },),
           const SizedBox(width: 12),
-          IconButton(icon:Icon(CupertinoIcons.suit_heart), color: Color.fromARGB(255,  214, 41, 118),iconSize: 25,onPressed: () {
+          IconButton(icon:const Icon(CupertinoIcons.suit_heart), color: const Color.fromARGB(255,  214, 41, 118),iconSize: 25,onPressed: () {
           },),
         ],
       ),
+      body: const PlacesList(places: [],),
     );
   }
 }
