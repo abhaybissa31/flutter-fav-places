@@ -38,7 +38,7 @@ class _PlacesListScreen extends State<PlacesScreen> {
       appBar: AppBar(
         title:  Row(
           children: [
-            const Icon(Icons.location_on_outlined,color: Colors.white,),
+            const Icon(Icons.location_on_outlined,color: Color.fromARGB(255, 214, 41, 118),),
             Text("My Places",style:GoogleFonts.kalnia(fontSize: 24,color: const Color.fromARGB(255, 214, 41, 118)),),
           ],
         ),
