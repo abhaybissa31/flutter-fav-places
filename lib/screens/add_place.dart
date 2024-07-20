@@ -32,12 +32,10 @@ class _AddNewPlacesState extends State<AddNewPlaces> {
               decoration: const InputDecoration(
                   labelText: 'Title',
                   alignLabelWithHint: true,
-                  // alignLabelWithHint: true,
+           
                   hintText: 'Add name of the place',
                   hintTextDirection: TextDirection.rtl,
-                  // focusColor: Colors.red,
-                  // filled: true,
-                  // disabledBorder: ,
+
                   enabledBorder: InputBorder.none,
                   hintStyle: TextStyle(color: Colors.grey),
                   focusedBorder: InputBorder.none
