@@ -10,7 +10,7 @@ class PlaceDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text(place.title),
+        title:  Text(place.title, style: const TextStyle(color:  Color.fromARGB(255, 214, 41, 118)),),
         automaticallyImplyLeading: false,
       ),
       body: Center(child: Text(place.title, style: Theme.of(context)

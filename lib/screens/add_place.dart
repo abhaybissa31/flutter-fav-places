@@ -1,4 +1,5 @@
 import 'package:favorite_places/providers/user_places.dart';
+import 'package:favorite_places/widgets/image_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +36,7 @@ class _AddNewPlacesState extends ConsumerState<AddNewPlaces> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new place'),
+        title: const Text('Add a new place',style: TextStyle(color: Color.fromARGB(255, 214, 41, 118)),),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -51,13 +52,17 @@ class _AddNewPlacesState extends ConsumerState<AddNewPlaces> {
                   hintText: 'Add name of the place',
                   hintTextDirection: TextDirection.rtl,
 
-                  enabledBorder: InputBorder.none,
+                  // enabledBorder: InputBorder.none,
                   hintStyle: TextStyle(color: Colors.grey),
-                  focusedBorder: InputBorder.none
+                  // focusedBorder: InputBorder.none
                   // border: OutlineInputBorder(),
                   ),
                   style: GoogleFonts.aBeeZee(color: Colors.white,fontSize: 20),
             ),
+            const SizedBox(
+              height: 16,
+            ),
+            const ImageInput(),
             const SizedBox(
               height: 16,
             ),
