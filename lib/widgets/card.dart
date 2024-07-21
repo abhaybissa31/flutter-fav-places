@@ -32,9 +32,10 @@ class CardData extends StatelessWidget {
               Positioned(
                 bottom: 0.0,
                 left: 0.0,
-                right: 0.0,
+                right: 270.0,
+                top: 0,
                 child: Container(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withOpacity(0.3),
                   padding: const EdgeInsets.all(7.0),
                   child: Row(
                     children: [
@@ -43,7 +44,7 @@ class CardData extends StatelessWidget {
                         child: Text(
                           place.title,
                           style: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.white, fontWeight: FontWeight.bold,fontSize: 18),
                         ),
                       ),
                       const Icon(Icons.arrow_forward_ios_rounded,
