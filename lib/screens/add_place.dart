@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:favorite_places/providers/user_places.dart';
 import 'package:favorite_places/widgets/image_input.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,14 +15,15 @@ class AddNewPlaces extends ConsumerStatefulWidget {
 
 class _AddNewPlacesState extends ConsumerState<AddNewPlaces> {
   final _titleController = TextEditingController();
+  File? _selectedImage;
 
   void _savedPlaces(){
     final _enteredText = _titleController.text;
 
-    if (_enteredText.isEmpty) {
+    if (_enteredText.isEmpty || _selectedImage == null) {
       return;
     }
-    ref.read(userPlacesProvider.notifier).addPlace(_enteredText);
+    ref.read(userPlacesProvider.notifier).addPlace(_enteredText,_selectedImage!);
 
     Navigator.of(context).pop();
 
@@ -62,7 +65,9 @@ class _AddNewPlacesState extends ConsumerState<AddNewPlaces> {
             const SizedBox(
               height: 16,
             ),
-            const ImageInput(),
+             ImageInput(onPickImage: (image) {
+              _selectedImage = image;
+            },),
             const SizedBox(
               height: 16,
             ),

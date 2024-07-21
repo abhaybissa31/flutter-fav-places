@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageInput extends StatefulWidget {
-  const ImageInput({super.key});
+  const ImageInput({super.key, required this.onPickImage});
+
+  final void Function (File) onPickImage;
 
   @override
   State<ImageInput> createState() {
@@ -42,44 +44,56 @@ class _ImageInputState extends State<ImageInput> {
                 const SizedBox(
                   width: 15,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        IconButton(
-                          icon: const Icon(CupertinoIcons.camera),
-                          color: Colors.white,
-                          onPressed: () => _takePicture(true),
-                        ),
-                        const Text(
-                          'Click a picture',
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    )
-                  ],
+                InkWell(
+                  splashFactory: InkSparkle.splashFactory,
+                  onTap: () => _takePicture(true),
+                  child: const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // InkWell(
+                      // onTap:() => _takePicture(true) ,
+                      Column(
+                        children: [
+                          Icon(
+                            CupertinoIcons.camera,
+                            color: Colors.white,
+                            // onPressed: ,
+                          ),
+                          Text(
+                            'Click a picture',
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      ),
+                      // )
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   width: 100,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        IconButton(
-                          icon: const Icon(CupertinoIcons.photo_on_rectangle),
-                          onPressed: () => _takePicture(false),
-                          color: Colors.white,
-                        ),
-                        const Text(
-                          'Choose from Gallery',
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    )
-                  ],
+                InkWell(
+                  splashFactory: InkSparkle.splashFactory,
+                  enableFeedback: true,
+                  onTap: () => _takePicture(false) ,
+                  child:const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          Icon(
+                             CupertinoIcons.photo_on_rectangle,
+                            // onPressed:,
+                            color: Colors.white,
+                          ),
+                          const Text(
+                            'Choose from Gallery',
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 40,
@@ -95,16 +109,15 @@ class _ImageInputState extends State<ImageInput> {
     );
   }
 
-  Future<void> _takePicture(bool isCameraSelected) async {
+  _takePicture(bool isCameraSelected) async {
     final imagePicker = ImagePicker();
     if (isCameraSelected) {
       final pickedImage = await imagePicker.pickImage(
         source: ImageSource.camera,
         imageQuality: 100,
         maxWidth: 600,
-        
       );
-    ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).clearSnackBars();
       if (pickedImage == null) {
         return;
       }
@@ -112,13 +125,16 @@ class _ImageInputState extends State<ImageInput> {
       setState(() {
         _selectedImage = File(pickedImage.path);
       });
+
+      widget.onPickImage(_selectedImage!);
+
     } else {
       final pickedImage = await imagePicker.pickImage(
         source: ImageSource.gallery,
         imageQuality: 100,
         maxWidth: 600,
       );
-        ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).clearSnackBars();
       if (pickedImage == null) {
         return;
       }
@@ -126,6 +142,8 @@ class _ImageInputState extends State<ImageInput> {
       setState(() {
         _selectedImage = File(pickedImage.path);
       });
+      
+      widget.onPickImage(_selectedImage!);
     }
   }
 

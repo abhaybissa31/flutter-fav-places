@@ -25,6 +25,7 @@ class PlacesList extends StatelessWidget {
         crossAxisCount: 1, // Adjust columns as needed
         childAspectRatio: 2.0,
       ),
+      
       itemBuilder: (ctx, index) => CardData(
         place: places[index],
       ),
