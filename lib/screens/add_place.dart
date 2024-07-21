@@ -1,15 +1,29 @@
+import 'package:favorite_places/providers/user_places.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddNewPlaces extends StatefulWidget {
+class AddNewPlaces extends ConsumerStatefulWidget {
   const AddNewPlaces({super.key});
   @override
-  State<AddNewPlaces> createState() => _AddNewPlacesState();
+  ConsumerState<AddNewPlaces> createState() => _AddNewPlacesState();
 }
 
-class _AddNewPlacesState extends State<AddNewPlaces> {
+class _AddNewPlacesState extends ConsumerState<AddNewPlaces> {
   final _titleController = TextEditingController();
+
+  void _savedPlaces(){
+    final _enteredText = _titleController.text;
+
+    if (_enteredText.isEmpty) {
+      return;
+    }
+    ref.read(userPlacesProvider.notifier).addPlace(_enteredText);
+
+    Navigator.of(context).pop();
+
+  }
 
   @override
   void dispose() {
@@ -29,6 +43,7 @@ class _AddNewPlacesState extends State<AddNewPlaces> {
         child: Column(
           children: [
             TextField(
+               controller: _titleController,
               decoration: const InputDecoration(
                   labelText: 'Title',
                   alignLabelWithHint: true,
@@ -47,7 +62,7 @@ class _AddNewPlacesState extends State<AddNewPlaces> {
               height: 16,
             ),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: _savedPlaces,
               label: const Text("Add a place"),
               icon: const Icon(CupertinoIcons.add),
             )

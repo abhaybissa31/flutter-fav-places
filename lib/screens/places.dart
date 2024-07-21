@@ -1,15 +1,12 @@
+import 'package:favorite_places/providers/user_places.dart';
 import 'package:favorite_places/screens/add_place.dart';
 import 'package:favorite_places/widgets/places_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PlacesScreen extends StatefulWidget{
-  @override
-  State<PlacesScreen> createState() => _PlacesListScreen();
-}
-
-class _PlacesListScreen extends State<PlacesScreen> {
+class PlacesScreen extends ConsumerWidget{
    void _addNewPlace(BuildContext context) async {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -32,8 +29,10 @@ class _PlacesListScreen extends State<PlacesScreen> {
       ),
     );  
   }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userPlaces = ref.watch(userPlacesProvider);
     return Scaffold(
       appBar: AppBar(
         title:  Row(
@@ -42,6 +41,7 @@ class _PlacesListScreen extends State<PlacesScreen> {
             Text("My Places",style:GoogleFonts.kalnia(fontSize: 24,color: const Color.fromARGB(255, 214, 41, 118)),),
           ],
         ),
+        backgroundColor: Colors.transparent,
         centerTitle: true,
         // elevation: 5,
         actions:  [
@@ -53,7 +53,7 @@ class _PlacesListScreen extends State<PlacesScreen> {
           },),
         ],
       ),
-      body: const PlacesList(places: [],),
+      body:  PlacesList(places: userPlaces,),
     );
   }
 }
