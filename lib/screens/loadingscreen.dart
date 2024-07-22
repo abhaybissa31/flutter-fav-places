@@ -22,7 +22,7 @@ class Splash extends State<Loadingscreen> {
      const Duration(seconds: 2),
       () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (BuildContext context) => PlacesScreen(),
+          builder: (BuildContext context) => const PlacesScreen(),
         ),
       ),
     );
