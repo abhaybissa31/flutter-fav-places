@@ -86,7 +86,7 @@ class _ImageInputState extends State<ImageInput> {
                             // onPressed:,
                             color: Colors.white,
                           ),
-                          const Text(
+                          Text(
                             'Choose from Gallery',
                             style: TextStyle(color: Colors.white),
                           )

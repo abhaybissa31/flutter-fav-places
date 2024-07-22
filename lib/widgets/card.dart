@@ -3,7 +3,7 @@ import 'package:favorite_places/screens/place_details.dart';
 import 'package:flutter/material.dart';
 
 class CardData extends StatelessWidget {
-  CardData({super.key, required this.place});
+  const CardData({super.key, required this.place});
   final PlaceModel place;
 
   @override

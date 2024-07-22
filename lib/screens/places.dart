@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PlacesScreen extends ConsumerWidget{
+  const PlacesScreen({super.key});
+
    void _addNewPlace(BuildContext context) async {
     Navigator.of(context).push(
       PageRouteBuilder(

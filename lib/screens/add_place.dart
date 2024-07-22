@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:favorite_places/providers/user_places.dart';
 import 'package:favorite_places/widgets/image_input.dart';
+import 'package:favorite_places/widgets/location_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,12 +19,12 @@ class _AddNewPlacesState extends ConsumerState<AddNewPlaces> {
   File? _selectedImage;
 
   void _savedPlaces(){
-    final _enteredText = _titleController.text;
+    final enteredText = _titleController.text;
 
-    if (_enteredText.isEmpty || _selectedImage == null) {
+    if (enteredText.isEmpty || _selectedImage == null) {
       return;
     }
-    ref.read(userPlacesProvider.notifier).addPlace(_enteredText,_selectedImage!);
+    ref.read(userPlacesProvider.notifier).addPlace(enteredText,_selectedImage!);
 
     Navigator.of(context).pop();
 
@@ -68,6 +69,8 @@ class _AddNewPlacesState extends ConsumerState<AddNewPlaces> {
              ImageInput(onPickImage: (image) {
               _selectedImage = image;
             },),
+            const SizedBox(height: 16,),
+            const LocationInput(),
             const SizedBox(
               height: 16,
             ),
