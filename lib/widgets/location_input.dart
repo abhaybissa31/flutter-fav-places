@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
@@ -11,10 +14,6 @@ class LocationInput extends StatefulWidget {
 }
 
 class _LocationInputState extends State<LocationInput> {
-
-
-
-
 // /// Determine the current position of the device.
 // ///
 // /// When the location services are not enabled or permissions
@@ -27,7 +26,7 @@ class _LocationInputState extends State<LocationInput> {
 //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
 //   if (!serviceEnabled) {
 //     // Location services are not enabled don't continue
-//     // accessing the position and request users of the 
+//     // accessing the position and request users of the
 //     // App to enable the location services.
 //     return Future.error('Location services are disabled.');
 //   }
@@ -38,28 +37,27 @@ class _LocationInputState extends State<LocationInput> {
 //     if (permission == LocationPermission.denied) {
 //       // Permissions are denied, next time you could try
 //       // requesting permissions again (this is also where
-//       // Android's shouldShowRequestPermissionRationale 
+//       // Android's shouldShowRequestPermissionRationale
 //       // returned true. According to Android guidelines
 //       // your App should show an explanatory UI now.
 //       return Future.error('Location permissions are denied');
 //     }
 //   }
-  
+
 //   if (permission == LocationPermission.deniedForever) {
-//     // Permissions are denied forever, handle appropriately. 
+//     // Permissions are denied forever, handle appropriately.
 //     return Future.error(
 //       'Location permissions are permanently denied, we cannot request permissions.');
-//   } 
+//   }
 
 //   // When we reach here, permissions are granted and we can
 //   // continue accessing the position of the device.
 //   return await Geolocator.getCurrentPosition();
 // }
 
-
   Location? _pickedLocation;
   bool _isGettingLoaded = false;
-  
+
   void _getCurrentLocation() async {
     Location location = Location();
 
@@ -87,29 +85,42 @@ class _LocationInputState extends State<LocationInput> {
     });
 
     locationData = await location.getLocation();
+    final latitude = locationData.latitude;
+    final longitude = locationData.longitude;
+    final url = Uri.parse(
+        'https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&apiKey=b6fb61c4436e4337b4a7231de3c27349');
+    final res = await http.get(url);
+    final resData = json.decode(res.body);
+
+    String? address;
+    if (resData['features'].isNotEmpty) {
+      String address = resData['features'][0]['properties']['formatted'];
+      print('+++++++++++++++++++++++++++++++++++++++++++');
+      print(address);
+    } else {
+      print('error in getting formated location');
+    }
+
     setState(() {
       _isGettingLoaded = false;
     });
-    print('-----------------------latitude');
-    print(locationData.latitude);
-    print('-------------------------longitude');
-    print(locationData.longitude);
+
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget previewContent =  Text(
-            "No location chosen",
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(color: Theme.of(context).colorScheme.onSurface),
-          );
+    Widget previewContent = Text(
+      "No location chosen",
+      textAlign: TextAlign.center,
+      style: Theme.of(context)
+          .textTheme
+          .bodyLarge!
+          .copyWith(color: Theme.of(context).colorScheme.onSurface),
+    );
 
-  // if (_isGettingLoaded) {
-  //     previewContent = const CircularProgressIndicator.adaptive();
-  // }
+    // if (_isGettingLoaded) {
+    //     previewContent = const CircularProgressIndicator.adaptive();
+    // }
     return Column(
       children: [
         Container(
@@ -122,7 +133,7 @@ class _LocationInputState extends State<LocationInput> {
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
-          child:previewContent,
+          child: previewContent,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
