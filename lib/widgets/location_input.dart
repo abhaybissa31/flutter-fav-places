@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:favorite_places/models/placeModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
@@ -55,7 +56,22 @@ class _LocationInputState extends State<LocationInput> {
 //   return await Geolocator.getCurrentPosition();
 // }
 
-  Location? _pickedLocation;
+
+
+  String get locationImage{
+    if (_pickedLocation==null) {
+      print('_pickedlocation is nulllllllllllllll-----------------');
+      return '_pickedlocation nulll';
+    }
+    final lat = _pickedLocation!.latitude;
+    final long = _pickedLocation!.longitude;
+
+ return 'https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=600&height=400&center=lonlat:$long,$lat&zoom=14.3497&marker=lonlat:$long,$lat;type:awesome;color:%23bb3f73;size:x-large;icon:male;icontype:awesome&apiKey=bad591d2b1f944d3bc7da689c06ead6f';  
+ }
+
+
+
+  PlaceLocation? _pickedLocation;
   bool _isGettingLoaded = false;
 
   void _getCurrentLocation() async {
@@ -87,6 +103,12 @@ class _LocationInputState extends State<LocationInput> {
     locationData = await location.getLocation();
     final latitude = locationData.latitude;
     final longitude = locationData.longitude;
+
+    if (latitude==null || longitude==null) {
+      print('lat or long is null----------------------------');
+      return;
+    }
+
     final url = Uri.parse(
         'https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&apiKey=b6fb61c4436e4337b4a7231de3c27349');
     final res = await http.get(url);
@@ -95,13 +117,15 @@ class _LocationInputState extends State<LocationInput> {
     String? address;
     if (resData['features'].isNotEmpty) {
       String address = resData['features'][0]['properties']['formatted'];
-      print('+++++++++++++++++++++++++++++++++++++++++++');
       print(address);
     } else {
       print('error in getting formated location');
     }
 
+   
+
     setState(() {
+      _pickedLocation = PlaceLocation(latitude: latitude, longitude: longitude, address: address ?? 'Unknown address');
       _isGettingLoaded = false;
     });
 
@@ -109,6 +133,7 @@ class _LocationInputState extends State<LocationInput> {
 
   @override
   Widget build(BuildContext context) {
+
     Widget previewContent = Text(
       "No location chosen",
       textAlign: TextAlign.center,
@@ -118,6 +143,9 @@ class _LocationInputState extends State<LocationInput> {
           .copyWith(color: Theme.of(context).colorScheme.onSurface),
     );
 
+    if (_pickedLocation != null) {
+      previewContent = Image.network(locationImage,fit: BoxFit.cover,height: double.infinity,width: double.infinity,);
+    }
     // if (_isGettingLoaded) {
     //     previewContent = const CircularProgressIndicator.adaptive();
     // }
