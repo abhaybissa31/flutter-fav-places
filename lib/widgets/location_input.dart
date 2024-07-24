@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key});
+  const LocationInput({super.key, required this.onSelectLocation});
+  final void Function(PlaceLocation location) onSelectLocation;
 
   @override
   State<LocationInput> createState() {
@@ -66,7 +67,7 @@ class _LocationInputState extends State<LocationInput> {
     }
     final lat = _pickedLocation!.latitude;
     final long = _pickedLocation!.longitude;
-    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$long&zoom=16.2&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C$lat,$long&key=$google_map_key';
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$long&zoom=16.2&size=600x300&maptype=roadmap&markers=color:red%7Cicon:male%7Clabel:U%7C$lat,$long&key=$google_map_key';
 //  return 'https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=600&height=400&center=lonlat:$long,$lat&zoom=14.3497&marker=lonlat:$long,$lat;type:awesome;color:%23bb3f73;size:x-large;icon:male;icontype:awesome&apiKey=$geoapify_map_key';  
  }
 
@@ -118,19 +119,25 @@ class _LocationInputState extends State<LocationInput> {
     final resData = json.decode(res.body);
 
     String? address;
+     address = resData['results'][0]['formatted_address'];
     if (resData['results'].isNotEmpty) {
-      String address = resData['results'][0]['formatted_address'];
+
       print(address);
     } else {
       print('error in getting formated location');
     }
 
-   
+   if (address==null) {
+      print('errr');
+      return;
+   }
 
     setState(() {
-      _pickedLocation = PlaceLocation(latitude: latitude, longitude: longitude, address: address ?? 'Unknown address');
+      _pickedLocation = PlaceLocation(latitude: latitude, longitude: longitude, address: address!);
       _isGettingLoaded = false;
     });
+
+      widget.onSelectLocation(_pickedLocation!);
 
   }
 

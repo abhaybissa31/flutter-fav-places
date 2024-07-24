@@ -32,19 +32,48 @@ class CardData extends StatelessWidget {
               Positioned(
                 bottom: 0.0,
                 left: 0.0,
-                right: 270.0,
-                top: 0,
+                right: 0.0,
                 child: Container(
                   color: Colors.black.withOpacity(0.3),
                   padding: const EdgeInsets.all(7.0),
                   child: Row(
                     children: [
-                      const SizedBox(width: 3,),
+                      const SizedBox(
+                        width: 3,
+                      ),
                       Expanded(
-                        child: Text(
-                          place.title,
-                          style: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold,fontSize: 18),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                // Row(
+                                // children: [
+                                // Row(
+                                // children: [
+                                Text(
+                                  place.title,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                ),
+                                // ],
+                                // ),
+                                // ],
+                                // ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    place.location.address,
+                                    style: TextStyle(color: Colors.white,fontSize: 12),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ),
                       const Icon(Icons.arrow_forward_ios_rounded,
