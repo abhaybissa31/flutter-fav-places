@@ -30,7 +30,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-
+D:\Development\flutter_projects\favorite_places\lib\.env
 # Symbolication related
 app.*.symbols
 

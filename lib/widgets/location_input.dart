@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:favorite_places/.env';
 import 'package:favorite_places/models/placeModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -65,8 +66,8 @@ class _LocationInputState extends State<LocationInput> {
     }
     final lat = _pickedLocation!.latitude;
     final long = _pickedLocation!.longitude;
-
- return 'https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=600&height=400&center=lonlat:$long,$lat&zoom=14.3497&marker=lonlat:$long,$lat;type:awesome;color:%23bb3f73;size:x-large;icon:male;icontype:awesome&apiKey=bad591d2b1f944d3bc7da689c06ead6f';  
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$long&zoom=16.2&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C$lat,$long&key=$google_map_key';
+//  return 'https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=600&height=400&center=lonlat:$long,$lat&zoom=14.3497&marker=lonlat:$long,$lat;type:awesome;color:%23bb3f73;size:x-large;icon:male;icontype:awesome&apiKey=$geoapify_map_key';  
  }
 
 
@@ -110,13 +111,15 @@ class _LocationInputState extends State<LocationInput> {
     }
 
     final url = Uri.parse(
-        'https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&apiKey=b6fb61c4436e4337b4a7231de3c27349');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$google_map_key'
+        // 'https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&apiKey=$geoapify_map_key');
+        );
     final res = await http.get(url);
     final resData = json.decode(res.body);
 
     String? address;
-    if (resData['features'].isNotEmpty) {
-      String address = resData['features'][0]['properties']['formatted'];
+    if (resData['results'].isNotEmpty) {
+      String address = resData['results'][0]['formatted_address'];
       print(address);
     } else {
       print('error in getting formated location');
@@ -146,9 +149,9 @@ class _LocationInputState extends State<LocationInput> {
     if (_pickedLocation != null) {
       previewContent = Image.network(locationImage,fit: BoxFit.cover,height: double.infinity,width: double.infinity,);
     }
-    // if (_isGettingLoaded) {
-    //     previewContent = const CircularProgressIndicator.adaptive();
-    // }
+    if (_isGettingLoaded) {
+        previewContent = const CircularProgressIndicator.adaptive();
+    }
     return Column(
       children: [
         Container(
