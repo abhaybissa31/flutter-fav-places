@@ -42,6 +42,7 @@ class PlaceDetailsScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: (){
                       Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>MapScreen(location: place.location,isSelecting: false,),),);
+                      print('-----------------------------------selection api caleeed ------------------------');
                     },
                       child: CircleAvatar(
                     radius: 70,
