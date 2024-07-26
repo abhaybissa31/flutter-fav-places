@@ -6,9 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PlacesScreen extends ConsumerWidget{
+class PlacesScreen extends ConsumerStatefulWidget{
   const PlacesScreen({super.key});
+  @override
+  ConsumerState<PlacesScreen> createState() {
+    return _PlacesScreenState();
+    
+  }
+}
 
+class _PlacesScreenState extends ConsumerState<PlacesScreen>{  
    void _addNewPlace(BuildContext context) async {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -32,8 +39,17 @@ class PlacesScreen extends ConsumerWidget{
     );  
   }
 
+  late Future<void> _placesFuture;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    // TODO: implement initState
+    _placesFuture = ref.read(userPlacesProvider.notifier).loadData();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final userPlaces = ref.watch(userPlacesProvider);
     return Scaffold(
       appBar: AppBar(
@@ -55,7 +71,7 @@ class PlacesScreen extends ConsumerWidget{
           },),
         ],
       ),
-      body:  PlacesList(places: userPlaces,),
+      body: FutureBuilder(future: _placesFuture, builder: (context,snapshot)=> snapshot.connectionState == ConnectionState.waiting?const Center(child: CircularProgressIndicator.adaptive(),):  PlacesList(places: userPlaces,),)
     );
   }
 }
