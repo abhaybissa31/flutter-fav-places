@@ -190,6 +190,7 @@ class _LocationInputState extends State<LocationInput> {
           child: previewContent,
         ),
         Row(
+          key: ValueKey.,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton.icon(
