@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:favorite_places/.env';
 import 'package:favorite_places/models/placeModel.dart';
+import 'package:favorite_places/screens/map.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 
@@ -76,6 +78,39 @@ class _LocationInputState extends State<LocationInput> {
   PlaceLocation? _pickedLocation;
   bool _isGettingLoaded = false;
 
+
+  Future _savePlace(double latitude, double longitude)async {
+      final url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$google_map_key'
+        // 'https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&apiKey=$geoapify_map_key');
+        );
+    final res = await http.get(url);
+    final resData = json.decode(res.body);
+
+    String? address;
+     address = resData['results'][0]['formatted_address'];
+    if (resData['results'].isNotEmpty) {
+
+      print(address);
+    } else {
+      print('error in getting formated location');
+    }
+
+   if (address==null) {
+      print('errr');
+      return;
+   }
+
+    setState(() {
+      _pickedLocation = PlaceLocation(latitude: latitude, longitude: longitude, address: address!);
+      _isGettingLoaded = false;
+    });
+
+      widget.onSelectLocation(_pickedLocation!);
+
+  }
+
+
   void _getCurrentLocation() async {
     Location location = Location();
 
@@ -111,34 +146,15 @@ class _LocationInputState extends State<LocationInput> {
       return;
     }
 
-    final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$google_map_key'
-        // 'https://api.geoapify.com/v1/geocode/reverse?lat=$latitude&lon=$longitude&apiKey=$geoapify_map_key');
-        );
-    final res = await http.get(url);
-    final resData = json.decode(res.body);
+    _savePlace(latitude, longitude);
+  }
 
-    String? address;
-     address = resData['results'][0]['formatted_address'];
-    if (resData['results'].isNotEmpty) {
-
-      print(address);
-    } else {
-      print('error in getting formated location');
-    }
-
-   if (address==null) {
-      print('errr');
+  void _selectOnMap() async  {
+    final pickedLocation = await Navigator.of(context).push<LatLng>(MaterialPageRoute(builder: (ctx)=>const MapScreen(),),);
+    if (pickedLocation == null) {
       return;
-   }
-
-    setState(() {
-      _pickedLocation = PlaceLocation(latitude: latitude, longitude: longitude, address: address!);
-      _isGettingLoaded = false;
-    });
-
-      widget.onSelectLocation(_pickedLocation!);
-
+    }
+    _savePlace(pickedLocation.latitude, pickedLocation.longitude);
   }
 
   @override
@@ -182,7 +198,7 @@ class _LocationInputState extends State<LocationInput> {
               icon: const Icon(Icons.location_on),
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: _selectOnMap,
               label: const Text("Select on Map"),
               icon: const Icon(Icons.map_outlined),
             ),
