@@ -1,5 +1,5 @@
 GeoSpark
-Jun 2024 - Jul 2024Jun 2024 - Jul 2024
+Jun 2024 - Jul 2024
 GeoSpark is a Flutter application designed to help users save and manage their favorite locations with ease. Here are the key features and technologies used in the project:
 
 Features:
