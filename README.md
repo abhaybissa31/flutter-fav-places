@@ -43,7 +43,7 @@ App UI:
 
 
 
-Favorite Places combines powerful features and tools to provide a seamless experience for managing and exploring your favorite locations.
+GeoSpark combines powerful features and tools to provide a seamless experience for managing and exploring your favorite locations.
 
 Technologies Used: Flutter, Dart, Riverpod, Sql
 A few resources to get you started if this is your first Flutter project:
